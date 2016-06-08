@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html> 
+<body> 
+<header>
+<script  type="text/javascript">>
+width_screen=screen.width;
+height_screen=screen.height;
+availWidth_screen=screen.availWidth;
+availHeight_screen=screen.availHeight;
+colorDepth_screen=screen.colorDepth;
+/*end*/
+/*输出值*/
+document.write("你的屏幕宽为："+width_screen+"<br />你的屏幕高为："+height_screen+"<br />你的屏幕可用宽为："+availWidth_screen+"<br />你的屏幕可用高为："+availHeight_screen+"<br />你的颜色设置所有为数为："+colorDepth_screen);
+</script>
+</header>
+<div style="text-align:center;">
+ 
+
+  <video id="container" width="420" style="margin-top:15px;">
+    <source src="http://192.168.199.204:8080/movie2/movie/mygradefather.mp4" type="video/mp4" />
+  </video>
+    <br /> 
+   <button onclick="playPause()">&#x25BA;</button> 
+  <button onclick="makeBig()">大</button>
+  <button onclick="makeNormal()">中</button>
+  <button onclick="makeSmall()">小</button>
+</div> 
+
+<script type="text/javascript">
+var myVideo=document.getElementById("container");
+
+function playPause()
+{ 
+if (myVideo.paused) 
+  myVideo.play(); 
+else 
+  myVideo.pause(); 
+} 
+
+function makeBig()
+{ 
+	if (myVideo.requestFullscreen) {
+		myVideo.requestFullscreen();
+		} else if (myVideo.mozRequestFullScreen) {
+			myVideo.mozRequestFullScreen();
+		} else if (myVideo.webkitRequestFullscreen) {
+			myVideo.webkitRequestFullscreen();
+		}
+} 
+
+function makeSmall()
+{ 
+myVideo.width=320; 
+} 
+
+function makeNormal()
+{ 
+myVideo.width=420; 
+} 
+</script> 
+
+</body> 
+</html>
