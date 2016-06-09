@@ -1,0 +1,278 @@
+<!--{eval include_once gettpl("hack_top");}-->
+
+<form action="$basename&action=video&act=search&rid=$rid" method="POST">
+<table width="98%" align=center cellspacing=1 cellpadding=3 class=tableborder>
+	<tr><td class=header colspan=2>影片搜索</td></tr>
+	<tr><td class=bg style="padding: 20px; line-height: 1em;">
+		说明: 搜索已采集的影片。(支持通配置符 *)<br /><br />
+		栏目: <select name="cid"><option value="all" selected>无限制</option><!--{echo create_class_option(array('optgroup'=>true))}--></select>
+		地区: <select name="nid"><option value="all" selected>无限制</option><!--{echo create_nation_option()}--></select>	
+		名称: <input type="text" name="subject" /> <input type="checkbox" name="subject_s" value="1"> 精确匹配
+		<input type="submit" value="提 交"/>
+	</td></tr>
+</table>
+</form>
+<br />
+
+<table width=98% align=center cellspacing=1 cellpadding=3 class=tableborder>
+	<tr>
+		<td class=bg>
+			[<a href="$basename&action=video&rid=$rid" title="管理所有已采集的影片">影片管理</a>] 
+			[<a href="$basename&action=video&act=importall&rid=$rid&step=0" title="将所有已采集和连载已更新的影片进行入库操作">全部入库</a>] 
+			[<a href="$basename&action=video&act=downpic&rid=$rid" title="下载所有未入库影片的海报至本地">下载海报</a>]
+			[<a href="$basename&action=video&act=serialise&rid=$rid" title="管理已设置为连载的影片">连载影片</a>]
+			[<a href="$basename&action=video&act=unclass&rid=$rid" title="管理未知栏目的影片">未知栏目</a>]
+			[<a href="$basename&action=video&act=unnation&rid=$rid" title="管理未知地区的影片">未知地区</a>]
+			[<a href="$basename&action=video&act=import&rid=$rid" title="管理已入库的影片">已入库</a>]
+			[<a href="$basename&action=video&act=unimport&rid=$rid" title="管理未入库的影片">未入库</a>]
+			[<a href="$basename&action=video&act=unsubmit&rid=$rid" title="管理已设置不入库标记的影片">不入库</a>]
+			[<a href="$basename&action=video&act=delall&rid=$rid" title="清空所有采集记录" onclick="return window.confirm('清空历史数据将无法判断影片是否采集过，您确定要清空吗？');">清空历史数据</a>]
+			[<a href="$basename&action=manage">返回</a>]
+		</td>
+	</tr>
+</table>
+<br>
+
+<!--{if $act=='unclass' && count($errcids)>0}-->
+<form action="$basename&action=replace&act=replaceClass" method="post" onKeydown="if(event.keyCode==13)return false;">
+<input type="hidden" name="rid" value="$rid" />
+<table width=98% align=center cellspacing=1 cellpadding=3 class=tableborder>
+	<tr><td colspan="2" class="header">栏目批量替换</td></tr>
+	<tr class="bg">
+		<td width="40%">源栏目</td>
+		<td>
+			<select name="oldClass">
+			<!--{loop $errcids $errcid}-->
+				<option value="$errcid[cid]">$errcid[cid]</option>
+			<!--{/loop}-->
+			</select>
+		</td>
+	</tr>
+	<tr class="bg">
+		<td>替换为</td>
+		<td><select name="newClass"><!--{echo create_class_option(array('optgroup'=>true))}--></select></td>
+	</tr>
+	<tr class="bg">
+		<td>添加至替换规则</td>
+		<td>
+			<input type="radio" name="addToReplaceRule" value="1" checked/>是
+			<input type="radio" name="addToReplaceRule" value="0" />否
+		</td>
+	</tr>
+</table>
+<br /><center><input type="submit" value="提 交" /></center>
+</form>
+<br />
+<!--{/if}-->
+
+<!--{if $act=='unnation' && count($errnids)>0}-->
+<form action="$basename&action=replace&act=replaceNation" method="post" onKeydown="if(event.keyCode==13)return false;">
+<input type="hidden" name="rid" value="$rid" />
+<table width=98% align=center cellspacing=1 cellpadding=3 class=tableborder>
+	<tr><td colspan="2" class="header">地区批量替换</td></tr>
+	<tr class="bg">
+		<td width="40%">源地区</td>
+		<td>
+			<select name="oldNation">
+			<!--{loop $errnids $errnid}-->
+				<option value="$errnid[nid]">$errnid[nid]</option>
+			<!--{/loop}-->
+			</select>		
+		</td>
+	</tr>
+	<tr class="bg">
+		<td>替换为</td>
+		<td><select name="newNation"><!--{echo create_nation_option()}--></select></td>
+	</tr>
+	<tr class="bg">
+		<td>添加至替换规则</td>
+		<td>
+			<input type="radio" name="addToReplaceRule" value="1" checked/>是
+			<input type="radio" name="addToReplaceRule" value="0" />否
+		</td>
+	</tr>
+</table>
+<br /><center><input type="submit" value="提 交" /></center>
+</form>
+<br />
+<!--{/if}-->
+
+
+<!--{if !$act || $act=='serialise' || $act=='unclass' || $act=='unnation' || $act=='unimport' || $act=='import' || $act=='unsubmit' || $act=='search'}-->
+<form action="$basename&action=video&act=post" method="post" onKeydown="if(event.keyCode==13)return false;">
+<input type="hidden" name="rid" value="$rid" />
+<table width=98% align=center cellspacing=1 cellpadding=3 class=tableborder>
+	<tr><td colspan="10" class="header">影片管理</td></tr>	
+	<tr align="center" class="field">
+		<td width="5%">ID</td>
+		<td width="*">名称</td>
+		<td width="10%">栏目</td>
+		<td width="10%">地区</td>
+		<td width="8%">海报</td>
+		<td width="8%">采集</td>
+		<td width="8%">入库</td>
+		<td width="10%">连载</td>
+		<td width="5%">编辑</td>
+		<td width="5%">操作</td>
+	</tr>
+
+<!--{loop $videodb $video}-->
+	<tr align="center" class="bg">
+		<td>$video[id]<!--{if $video[submit_flag]=='1'}--><span style="color:red;">*</span><!--{/if}--></td>
+		<td>
+			<a href="$video[fromurl]" target="_blank">$video[subject]</a>
+			<!--{if empty($video[pic]) || empty($video[content]) || empty($video[url]) || ($rule[videoPicDown]=='1' && $video[pic_flag]=='0')}-->
+			<br />
+			<span style="color: red;">
+				<!--{if empty($video[url])}-->
+				影片地址
+				<!--{/if}-->
+				
+				<!--{if empty($video[content])}-->
+				影片简介
+				<!--{/if}-->
+								
+				<!--{if empty($video[pic])}-->
+				海报地址
+				<!--{/if}-->
+				
+				<!--{if ($rule[videoPicDown]=='1' && $video[pic_flag]=='0')}-->
+				海报下载
+				<!--{/if}-->
+				
+				出错!
+			</span>			
+			<!--{/if}-->			
+		</td>
+		<td>$video[cid]</td>
+		<td>$video[nid]</td>
+		<td>
+			<!--{if $video[pic_flag]=='1'}-->
+			<span style="color: green;">已下载</span>
+			<!--{else}-->
+			<span style="color: red;">未下载</span>
+			<!--{/if}-->
+		</td>
+		<td>
+			<!--{if $video[collect_flag]=='1'}-->
+			<span style="color: green;">已采集</span>
+			<!--{else}-->
+			<span style="color: red;">未采集</span>
+			<!--{/if}-->		
+		</td>
+		<td>
+			<!--{if $video[import_flag]=='1'}-->
+			<span style="color: green;">已入库</span>
+			<!--{else}-->
+			<span style="color: red;">未入库</span>
+			<!--{/if}-->		
+		</td>
+		<td>
+			<!--{if $video[serialise_flag]=='1'}--><span style="color: green;">是</span><!--{else}--><span style="color: red;">否</span><!--{/if}--> <!--{if $video[serialise_update]=='1' && $video[import_flag]=='1'}--><span style="color: red;">需要更新</span><!--{/if}-->
+		</td>
+		<td>
+			<a href="$basename&action=video&act=edit&rid=$rid&id=$video[id]">编辑</a>
+		</td>
+		<td>
+			<input type="checkbox" name="ids[]" value="$video[id]" />
+		</td>
+	</tr>
+<!--{/loop}-->
+</table><br />
+<div style="text-align: right; width: 98%; ">$pages</div><br />
+<center>
+操作: 
+<select name="operate">
+	<option value="import">影片入库</option>
+	<option value="restart">重新采集</option>
+	<option value="serialise">设置/取消连载</option>
+	<option value="submit">设置/取消不入库标记</option>
+	<option value="del">删除影片</option>
+</select>
+
+<input type="button" onClick="CheckAll(this.form)" value="全 选" /> 
+<input type="submit" value="提 交" /> <br />
+</center>
+</form>
+
+<!--{elseif $act=='edit'}-->
+<form action="$basename&action=video&act=edit" method="post">
+<input type="hidden" name="step" value="2" />
+<input type="hidden" name="id" value="$row[id]" />
+<input type="hidden" name="rid" value="$rid" />
+
+<table width=98% align=center cellspacing=1 cellpadding=3 class=tableborder>
+	<tr><td colspan="2" class="header">影片编辑</td></tr>
+	<tr class=bg>
+		<td width="30%">栏目</td>
+		<td>
+			<select name="video[class]">
+				<!--{if isset($_class[$row['cid']])}-->
+					<!--{echo create_class_option(array('select'=>$row['cid'],'optgroup'=>true))}-->
+				<!--{else}-->
+					<option value="$row[cid]" selected="selected">未知栏目</option>
+					<!--{echo create_class_option(array('optgroup'=>true))}-->
+				<!--{/if}-->
+			</select>
+		</td>
+	</tr>
+	<tr class=bg>
+		<td>地区</td>
+		<td>
+			<select name="video[nation]">
+				<!--{if isset($_nation[$row['nid']])}-->
+					<!--{echo create_nation_option($row['nid'])}-->
+				<!--{else}-->
+					<option value="$row[nid]" selected="selected">未知地区</option>
+					<!--{echo create_nation_option()}-->
+				<!--{/if}-->		
+			</select>
+		</td>
+	</tr>
+	<tr class=bg>
+		<td>标题</td>
+		<td><input type="text" name="video[subject]" value="$row[subject]" /></td>
+	</tr>
+	<tr class=bg>
+		<td>演员</td>
+		<td><input type="text" name="video[playactor]" value="$row[playactor]" /></td>
+	</tr>
+	<tr class=bg>
+		<td>导演</td>
+		<td><input type="text" name="video[director]" value="$row[director]" /></td>
+	</tr>
+	<tr class=bg>
+		<td>年代</td>
+		<td><input type="text" name="video[year]" value="$row[year]" /></td>
+	</tr>	
+	<tr class=bg>
+		<td>备注</td>
+		<td><input type="text" name="video[memo]" value="$row[memo]" /></td>
+	</tr>
+	<tr class=bg>
+		<td>海报</td>
+		<td><img src="$vodimg" width="134" height="180"/></td>
+	</tr>
+	<tr class=bg>
+		<td>内容</td>
+		<td><textarea cols="60" rows="8" name="video[content]">$row[content]</textarea></td>
+	</tr>
+	<tr class=bg>
+		<td>地址<br /><span style="color:blue;">每行输入一个地址</span></td>
+		<td><textarea cols="60" rows="8" name="video[url]" wrap="off">$row[url]</textarea></td>
+	</tr>
+	<tr class=bg>
+		<td>是否连载</td>
+		<td>
+			<input type="radio" name="video[serialise]" value="1" $serialise_flag_1 />是
+			<input type="radio" name="video[serialise]" value="0" $serialise_flag_0 />否
+		</td>
+	</tr>
+</table>
+<br >
+<center><input type="submit" value="提 交" /></center>
+</form>
+
+<!--{/if}-->
+
+<!--{eval include_once gettpl("hack_bottom");}-->

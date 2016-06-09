@@ -1,0 +1,31 @@
+<!--{if !empty($pageinfo)}-->
+	<!--{eval $page_first_url = str_replace('%page%', $pageinfo[page_first], $pageinfo[url]);}-->
+	<a href="{$page_first_url}">首页</a>&nbsp;&nbsp;
+	
+	<!--{eval $page_up_url = str_replace('%page%', $pageinfo[page_up], $pageinfo[url]);}-->
+	<a href="{$page_up_url}">上一页</a>&nbsp;&nbsp;
+	
+	<!--{eval for($i=$pageinfo[page_current]-3;$i<$pageinfo[page_current];$i++) {}-->
+		<!--{eval if($i<1) continue;}-->
+		<!--{eval $url = str_replace('%page%', {$i}, $pageinfo[url]);}-->
+		<a href="{$url}">$i</a>&nbsp;&nbsp;
+	<!--{eval }}-->
+	
+	<strong>{$pageinfo[page_current]}</strong>&nbsp;&nbsp;
+
+	<!--{if $pageinfo[page_current]<$pageinfo[page_end]}-->
+		<!--{eval $flag=0;}-->
+		<!--{eval for($i=$pageinfo[page_current]+1;$i<=$pageinfo[page_end];$i++) {}-->
+			<!--{eval $url = str_replace('%page%', {$i}, $pageinfo[url]);}-->
+			<a href="{$url}">$i</a>&nbsp;&nbsp;
+			<!--{eval $flag++;}-->
+			<!--{eval if($flag==4) break;}-->
+		<!--{eval }}-->
+	<!--{/if}-->
+	
+	<!--{eval $page_down_url = str_replace('%page%', $pageinfo[page_down], $pageinfo[url]);}-->
+	<a href="{$page_down_url}">下一页</a>&nbsp;&nbsp;
+	
+	<!--{eval $page_end_url = str_replace('%page%', $pageinfo[page_end], $pageinfo[url]);}-->
+	<a href="{$page_end_url}">尾页</a>&nbsp;Pages: ( {$pageinfo[page_current]}/{$pageinfo[page_end]} total )
+<!--{/if}-->

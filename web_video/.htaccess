@@ -1,0 +1,8 @@
+ErrorDocument 404 /404.php
+RewriteEngine On
+RewriteRule ^category\-(\d+)(.*)$ category.php?cid=$1 [L]
+RewriteRule ^class\-(\d+)\-(\d+)(.*)$ class.php?cid=$1&page=$2 [L]
+RewriteRule ^class\-(\d+)(.*)$ class.php?cid=$1 [L]
+RewriteRule ^read\-(\d+)(.*)$ read.php?vid=$1 [L]
+RewriteRule ^play\-(\d+)\-(\d+)\-(\d+)(.*)$ play.php?vid=$1&playgroup=$2&index=$3 [L]
+RewriteRule ^(.*)-htm-(.*)$ $1.php?$2

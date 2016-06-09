@@ -1,0 +1,23 @@
+<!--{if !empty($pageinfo)}-->
+	<a href="{$pageinfo[url]}page={$pageinfo[page_first]}">首页</a>&nbsp;&nbsp;
+	<a href="{$pageinfo[url]}page={$pageinfo[page_up]}">上一页</a>&nbsp;&nbsp;
+	
+	<!--{eval for($i=$pageinfo[page_current]-3;$i<$pageinfo[page_current];$i++) {}-->
+		<!--{eval if($i<1) continue;}-->
+		<a href="{$pageinfo[url]}page={$i}">$i</a>&nbsp;&nbsp;
+	<!--{eval }}-->
+	
+	<strong>{$pageinfo[page_current]}</strong>&nbsp;&nbsp;
+
+	<!--{if $pageinfo[page_current]<$pageinfo[page_end]}-->
+		<!--{eval $flag=0;}-->
+		<!--{eval for($i=$pageinfo[page_current]+1;$i<=$pageinfo[page_end];$i++) {}-->
+			<a href="{$pageinfo[url]}page={$i}">$i</a>&nbsp;&nbsp;
+			<!--{eval $flag++;}-->
+			<!--{eval if($flag==4) break;}-->
+		<!--{eval }}-->
+	<!--{/if}-->
+	
+	<a href="{$pageinfo[url]}page={$pageinfo[page_down]}">下一页</a>&nbsp;&nbsp;
+	<input type="text" size="2" style="height: 16px; border:1px solid #698CC3" onkeydown="javascript: if(event.keyCode==13){location='{$pageinfo[url]}page='+this.value;return false;}">&nbsp;<a href="{$pageinfo[url]}page={$pageinfo[page_end]}">尾页</a>&nbsp;Pages: ( {$pageinfo[page_current]}/{$pageinfo[page_end]} total )
+<!--{/if}-->

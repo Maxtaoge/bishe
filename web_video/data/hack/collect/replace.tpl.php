@@ -1,0 +1,101 @@
+<?php include_once gettpl("hack_top"); ?><style type="text/css">
+textarea{
+word-wrap: normal;
+overflow-x: auto;
+}
+</style>
+
+<table width="98%" align=center cellspacing=1 cellpadding=3 class=tableborder>
+<tr><td class=header colspan=2>提示信息</td></tr>
+<tr><td class=bg style="padding: 20px; line-height: 1em;">
+说明：设置各字段的替换规则，用<span style="color: red;">(*)</span>表示变动数据，替换内容支持<span style="color: red;">(%1)(%2)</span>等逆向引用 <br /><br />
+支持Perl风格的正则表达式，使用正则表达式时代码请用rule:开头，逆向引用请使用<span style="color: red;">\\1 \\2</span>或<span style="color: red;">$1 $2</span>形式。<br /><br />
+使用PHP代码执行替换时请使用code:开头,变量<span style="color: red;">content</span>为采集到的文本,替换后的变量名必须为<span style="color: red;">str</span>		
+</td></tr>
+</table>
+<br />
+
+<table width=98% align=center cellspacing=1 cellpadding=3 class=tableborder>
+<tr>
+<td class=bg>
+[<a href="<?php echo $basename;?>">管理采集项目</a>]
+[<a href="<?php echo $basename;?>&action=rules&type=new">添加/编辑采集规则</a>]
+[<a href="<?php echo $basename;?>&action=bakup&type=import">导入规则</a>]
+[<a href="<?php echo $basename;?>&action=setup">采集设置</a>]
+[<a href="<?php echo $basename;?>&action=record">自动采集记录</a>]
+[<strong><a href="<?php echo $basename;?>&action=replace&rid=<?php echo $rid;?>">设置替换规则</a></strong>]
+</td>
+</tr>
+</table>
+<br>
+
+<form action="<?php echo $basename;?>&action=replace&act=add" method="post">
+<input type="hidden" name="rid" value="<?php echo $rid;?>" />
+<table width=98% align=center cellspacing=1 cellpadding=3 class=tableborder>
+<tr><td colspan="2" class="header">添加替换项目</td></tr>	
+<tr>
+<td class=bg width="30%">字段</td>
+<td class=bg>
+<select name="keyname">
+<option value="class">栏目</option>
+<option value="nation">地区</option>
+<option value="subject">标题</option>
+<option value="playactor">演员</option>
+<option value="director">导演</option>
+<option value="year">年代</option>
+<option value="memo">备注</option>
+<option value="content">内容</option>
+<option value="serialiseflag">连载标记</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td class=bg>替换</td>
+<td class=bg>
+<textarea name="str1" cols="35" rows="4" ></textarea> 替换为 <textarea name="str2" cols="35" rows="4" ></textarea>
+</td>
+</tr>
+
+</table><br />
+<center><input type="submit" value="提 交" /></center>
+</form>
+
+<br />
+<table width=98% align=center cellspacing=1 cellpadding=3 class=tableborder>
+<tr><td colspan="6" class="header">替换项目列表</td></tr>	
+<tr align="center" class="field">
+<td width="5%">ID</td>
+<td width="15%">规则名称</td>
+<td width="10%">字段</td>
+<td width="30%">被替换内容</td>
+<td width="30%">替换为</td>
+<td width="10%">操作</td>
+</tr><?php if(is_array($replacedb)) { foreach($replacedb as $replace) { ?><tr align="center" class=bg>
+<td width="5%"><?php echo $replace['id'];?></td>
+<td width="15%"><?php echo $replace['name'];?></td>
+<td width="10%">
+<?php if($replace['keyname']=='class') { ?>	
+栏目
+<?php } elseif($replace['keyname']=='nation') { ?>
+地区
+<?php } elseif($replace['keyname']=='subject') { ?>
+标题
+<?php } elseif($replace['keyname']=='playactor') { ?>
+演员
+<?php } elseif($replace['keyname']=='director') { ?>
+导演
+<?php } elseif($replace['keyname']=='year') { ?>
+年代			
+<?php } elseif($replace['keyname']=='memo') { ?>
+备注
+<?php } elseif($replace['keyname']=='content') { ?>
+内容
+<?php } elseif($replace['keyname']=='serialiseflag') { ?>
+连载标记			
+<?php } ?>			
+</td>
+<td width="30%"><?php echo $replace['str1'];?></td>
+<td width="30%"><?php echo $replace['str2'];?></td>
+<td width="10%"><a href="<?php echo $basename;?>&action=replace&rid=<?php echo $rid;?>&act=del&id=<?php echo $replace['id'];?>">删除</a></td>
+</tr><?php } } ?></table><?php include_once gettpl("hack_bottom"); ?>

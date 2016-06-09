@@ -1,0 +1,31 @@
+<div class="m-navpath">当前位置: $navpath</div>
+
+<!--{eval $adcode = ad('nav');}-->
+<!--{if $adcode!=''}--><div class="u-adnav f-mt10">$adcode</div><!--{/if}-->
+<div class="g-full f-mt10">
+	<div class="m-box">
+		<div class="title">$video[subject] - $urlcaption</div>
+		<div class="content f-tac f-p5">
+			<!--{eval $adcode = ad('play',1);}-->	<!-- 播放器左侧广告 190*550-->
+			<!--{if $adcode!=''}--><div class="f-fl u-adplayside">$adcode</div><!--{/if}-->
+			<!--{eval $adcode = ad('play',2);}-->	<!-- 播放器右侧广告 190*550-->
+			<!--{if $adcode!=''}--><div class="f-fr u-adplayside">$adcode</div><!--{/if}-->
+			<div class="m-play">$player</div>
+		</div>	
+	</div>
+	
+	<!--{loop $urldb $pg $msg}-->
+	<div class="m-box f-mt10">
+		<div class="title"><span class="f-fr">$msg[player]</span>播放组{$msg[playgroup]}</div>
+		<div class="content m-playlist">
+			<!--{loop $msg[urls] $key $value}-->
+			<a href="play.php?vid=$msg[vid]&playgroup=$msg[playgroup]&index=$key" title="$value[caption]" <!--{if $msg[playgroup]==$playgroup && $key==$index}-->class="sel"<!--{/if}-->>$value[caption]</a>
+			<!--{/loop}-->
+			<div class="f-cb"></div>							
+		</div>
+	</div>
+	<!--{/loop}-->
+	
+	<!--{eval $adcode = ad('play',3);}-->
+	<!--{if $adcode!=''}--><div class="u-adplay f-mt15">$adcode</div><!--{/if}-->	
+</div>

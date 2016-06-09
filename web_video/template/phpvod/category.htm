@@ -1,0 +1,135 @@
+<!--{template 'panel_flash'}-->
+
+<!--{eval $adcode = ad('nav');}-->
+<!--{if $adcode!=''}--><div class="u-adnav f-mt10">$adcode</div><!--{/if}-->
+
+<div class="g-full f-mt10 f-fl">
+	<div class="g-main f-fl">
+		<div class="m-box">
+			<div class="title">推荐影片</div>
+			<div class="content">
+				<ul class="m-list1">
+					<!--{loop:video:$video cid=$cid|showsub=1|best=2|limit=10|order=lastdate DESC,postdate DESC,v.vid DESC}-->
+					<li>
+						<div class="pic"><a href="read.php?vid=$video[vid]" title="$video[subject]"><img src="$video[picurl]" alt="$video[subject]" /></a></div>
+						<div class="subject"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></div>
+						<div class="author"><a href="profile.php?action=show&id=$video[authorid]" target="_blank" title="$video[author]">$video[author]</a></div>
+					</li>
+					<!--{/loop:video}-->
+				</ul>
+			</div>		
+		</div>		
+	</div>
+	<div class="g-side f-fr">
+		<div class="m-box">
+			<div class="title">最近更新</div>
+			<div class="content">
+				<ul class="m-list2">
+					<!--{eval $i=1;}-->
+					<!--{loop:video:$video cid=$cid|showsub=1|limit=10|order=lastdate DESC,postdate DESC,v.vid DESC}-->
+					<!--{if $i==1}-->
+					<li class="l1">
+						<a class="imgbg1" href="read.php?vid=$video[vid]" title="$video[subject]"><img src="$video[picurl]" alt="$video[subject]"/><span class="num1">1</span></a>
+						<p class="subject"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></p>
+						<p>类别: $video[class_name]</p>
+						<p>地区: $video[nation_name]</p>
+						<p>热度: $video[hits]</p>
+						<p>更新日期: <!--{echo get_date($video[lastdate], 'Y-m-d')}--></p>							
+					</li>					
+					<!--{else}-->
+					<li>
+						<span class="f-fr"><!--{echo get_date($video[lastdate],'m-d')}--></span>
+						<i>$i</i>
+						<span class="sj"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></span>
+					</li>					
+					<!--{/if}-->
+					<!--{eval $i++;}-->
+					<!--{/loop:video}-->
+				</ul>				
+			</div>			
+		</div>		
+	</div>
+</div>
+
+<!--{eval $adcode = ad('class',1);}-->
+<!--{if $adcode!=''}--><div class="u-adclass f-mt15">$adcode</div><!--{/if}-->
+
+<!--{eval $adi=2;}-->
+<!--{loop:class:$c1 cid=$cid}-->
+
+<div class="g-full f-mt10 f-fl">
+	<div class="g-main f-fl">
+		<div class="m-box">
+			<div class="title">
+				<span class="f-fr f-fs12">
+					<!--{loop:class:$c2 cid=$c1[cid]}-->
+					&nbsp;&nbsp;<a href="class.php?cid=$c2[cid]">$c2[caption]</a>
+					<!--{/loop:class}-->
+					&nbsp;&nbsp;<a href="class.php?cid=$c1[cid]">更多...</a>
+				</span>
+				$c1[caption]				
+			</div>
+			<div class="content">
+				<ul class="m-list1">
+					<!--{loop:video:$video cid=$c1[cid]|showsub=1|order=lastdate DESC,postdate DESC,v.vid DESC|limit=10}-->
+					<li>
+						<div class="pic"><a href="read.php?vid=$video[vid]" title="$video[subject]"><img src="$video[picurl]" alt="$video[subject]" /></a></div>
+						<div class="subject"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></div>
+						<div class="author"><a href="profile.php?action=show&id=$video[authorid]" target="_blank" title="$video[author]">$video[author]</a></div>
+					</li>
+					<!--{/loop:video}-->
+				</ul>
+			</div>		
+		</div>		
+	</div>
+	<div class="g-side f-fr">
+		<div class="m-box">
+			<div class="title">
+				<div class="m-rank">
+					<a href="javascript:;" onmouseover="tab('{$c1[cid]}',3,1);" id="a{$c1[cid]}_1" class="sel">昨天</a>
+					<a href="javascript:;" onmouseover="tab('{$c1[cid]}',3,2);" id="a{$c1[cid]}_2">本周</a>
+					<a href="javascript:;" onmouseover="tab('{$c1[cid]}',3,3);" id="a{$c1[cid]}_3">本月</a>
+				</div>				
+				$c1[caption]排行
+			</div>			
+			
+			<!--{eval $rankarr = array('1'=>'yesterday_hits','2'=>'week_hits','3'=>'month_hits');}-->
+			<!--{loop $rankarr $k $t}-->
+			<!--{eval $stylestr = $t=='yesterday_hits' ? 'block' : 'none';}-->
+						
+			<div class="content" id="c{$c1[cid]}_{$k}" style="display: {$stylestr}">
+				<ul class="m-list2">
+					<!--{eval $i=1;}-->
+					<!--{loop:video:$video cid=$c1[cid]|showsub=1|limit=10|order=$t DESC,hits DESC|cachetime=1d}-->
+					<!--{if $i==1}-->
+					<li class="l1">
+						<a class="imgbg1" href="read.php?vid=$video[vid]" title="$video[subject]"><img src="$video[picurl]" alt="$video[subject]"/><span class="num1">1</span></a>
+						<p class="subject"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></p>
+						<p>类别: $video[class_name]</p>
+						<p>地区: $video[nation_name]</p>
+						<p>热度: $video[$t]</p>
+						<p>更新日期: <!--{echo get_date($video[lastdate], 'Y-m-d')}--></p>							
+					</li>					
+					<!--{else}-->
+					<li>
+						<span class="f-fr">$video[$t]</span>
+						<i>$i</i>
+						<span class="sj"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></span>
+					</li>					
+					<!--{/if}-->
+					<!--{eval $i++;}-->
+					<!--{/loop:video}-->
+				</ul>				
+			</div>
+			
+			<!--{/loop}-->
+						
+		</div>		
+	</div>
+</div>
+
+<!--{eval $adcode = ad('class',$adi); $adi++;}-->
+<!--{if $adcode!=''}--><div class="u-adclass f-mt15">$adcode</div><!--{/if}-->
+
+<!--{/loop:class}-->
+	

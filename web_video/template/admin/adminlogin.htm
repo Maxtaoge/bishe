@@ -1,0 +1,66 @@
+<!--<?php
+include_once gettpl("css");
+print <<<EOT
+-->
+</head>
+<body>
+	
+<style type="text/css">
+.border{border: solid 1px #739ACE; width: 450px; margin-top: 100px;}
+.border h3{background-color: #739ACE; color: #FFFFFF; padding: 5px 15px; font-size: 14px; font-weight: bolder;}
+.border .content{padding: 15px 0px; background-color: #FFFFFF;}
+.logintable{border-collapse: collapse; width: 100%;}
+.logintable td{height: 28px;}
+.logintable td.cap{width: 40%; text-align: right; padding: 0px 0px;}
+.logintable td.ipt{vertical-align: middle; text-align: left;}
+.loginbtn{text-align:center; margin: 5px 0 5px 0;}
+</style>
+
+<form action="$request_uri" method="post">
+<div class="border">
+	<h3>PHPvod 管理中心</h3>
+	<div class="content">
+		<input type="hidden" name="login_f" value="1">
+		<table class="logintable">
+			<tr>
+				<td class="cap">管理员ID</td>
+				<td class="ipt">
+					<input type="text" name="admin_name" style="width: 150px;">
+				</td>
+			</tr>
+			<tr>
+				<td class="cap">管理员密码</td>
+				<td class="ipt">
+					<input type=password name="admin_password" style="width: 150px;">
+				</td>
+			</tr>
+<!--
+EOT;
+if($db_gdcheck & 32){
+print <<<EOT
+-->	
+			<tr>
+				<td class="cap">验证码</td>
+				<td class="ipt">
+					<input name="login_num" type="text" style="width: 100px;">
+					<div style="margin-top: 2px;">
+						<img src="ck.php?admin=1&nowtime=$timestamp" align="absmiddle" style="cursor:pointer;" id="ckcode" onclick="this.src='ck.php?admin=1&nowtime='+new Date().getTime();" alt="看不清楚，换一张" />
+					</div>
+				</td>
+			</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</table>			
+	</div>
+	<div class="loginbtn"><input type=submit name="submit" value="提 交"></div>
+</div>	
+</form>	
+	
+</body></html>
+<!--
+EOT;
+include_once gettpl('adminbottom');
+?>
+-->

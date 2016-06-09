@@ -1,0 +1,43 @@
+<!--<?php
+include_once gettpl('top');
+print <<<EOT
+-->
+<form action=$basename method=post name="form1">
+<input type=hidden name="action" value="del">
+<table width=98% border=0 align=center cellpadding=0 cellspacing=1 class=tableborder>
+<tr><td class=header colspan=6>视频举报信管理</td></tr>
+<tr class="field" align=center>
+<td width=6%>ID</td>
+<td width=20%>视频名称</td>
+<td width=15%>反映用户</td>
+<td width=10%>报告类型</td>
+<td>原因</td>
+<td width=6%>删除</td>
+</tr>
+<!--
+EOT;
+foreach($reportdb as $report){
+print <<<EOT
+-->
+<tr align="center">
+<td>$report[id]</td>
+<td><a href="read.php?vid=$report[vid]" target="_blank">$report[subject]</a></td>
+<td>$report[username]</td>
+<td>$report[type]</td>
+<td>$report[reason]</td>
+<td><input type='checkbox' name='selid[]' value="$report[id]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<div class="pages">$pages</div>
+<center>
+<input type='button' name='chkall' value='全 选' onclick='check_all(this.form)'>
+<input type="submit" name="hello" value="提 交">
+</center></form>
+<!--
+EOT;
+include_once gettpl('adminbottom');
+?>
+-->

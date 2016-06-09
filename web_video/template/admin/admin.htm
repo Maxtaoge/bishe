@@ -1,0 +1,96 @@
+<!--<?php
+include_once gettpl('top');
+print <<<EOT
+-->
+<div style="text-align:center;margin-bottom:8px; font-size:14px;">欢迎光临 PHPvod $version $vertype 系统设置面板，版权所有&copy;2009-2012 phpvod.com</div>
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
+	<tr><th class="header">系统公告</th></tr>
+	<tr><td style="line-height: 2em;" align="center">
+		<script src="http://service.phpvod.com/index.php?module=notice&charset=$db_charset"></script> $sitemsg_script
+	</td></tr>
+</table>
+<br />
+
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
+	<tr><th colspan="2" class="header">系统信息</th></tr>
+	<tr>
+		<td width="50%">
+			程序版本: <a href="http://www.phpvod.com" target="_blank" title="点击查询您目前使用的版本信息"><b>PHPvod</b></a> v$version $vertype
+		</td>
+		<td>
+			服务器端信息: $server_info[server_software]
+		</td>
+	</tr>
+	<tr>
+		<td>
+			PHP版本: $server_info[php_version]
+		</td>
+		<td>
+			MySQL版本: $server_info[db_version]			
+		</td>
+	</tr>
+	<tr>
+		<td>
+			处理器: $server_info[processor_identifier]
+		</td>
+		<td>
+			服务器所在时间: $server_info[system_time]
+		</td>
+	</tr>		
+	<tr>
+		<td>
+			最大上传限制: $server_info[max_upload]			
+		</td>
+		<td>
+			最大执行时间: $server_info[max_ex_time]
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Cookie 测试: $server_info[cookie]
+		</td>
+		<td>
+			邮件支持模式: $server_info[system_mail]
+		</td>
+	</tr>
+	<tr>
+		<td>
+			PHPvod数据库占用: $server_info[pv_size] M
+		</td>
+		<td>
+			非PHPvod数据库占用: $server_info[other_size] M
+		</td>
+	</tr>
+</table>
+<br />
+
+<table width="98%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
+	<tr><th colspan="2" class="header">PHPvod 官方</th></tr>
+	<tr>
+		<td width="50%">
+			官方网站: <a href="http://www.phpvod.com" target="_blank">www.phpvod.com</a>
+		</td>
+		<td>
+			官方论坛: <a href="http://bbs.phpvod.com" target="_blank">bbs.phpvod.com</a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			官方演示: <a href="http://vod.phpvod.com" target="_blank">vod.phpvod.com</a>
+		</td>
+		<td>
+			技术支持: PHPvod Team &nbsp; QQ: 19855462 &nbsp; Email: <a href="mailto:phpvod@qq.com">phpvod@qq.com</a>
+		</td>
+
+	</tr>
+</table>
+
+<script src="http://service.phpvod.com/index.php?module=update&version=$version&vertype=$vertype&charset=$db_charset"></script>
+
+<!--
+EOT;
+include_once gettpl('adminbottom');
+?>
+-->
+
+

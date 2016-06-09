@@ -1,0 +1,34 @@
+您好，
+<!--{if $groupid=='guest'}-->
+		请 <a href="register.php">注册</a> 或 <a href="login.php">登录</a>
+<!--{else}-->
+{$username}！<a href="login.php?action=quit">[退出]</a>
+┆ <a href="profile.php?action=show&id=$uid">个人中心</a>
+┆ <a href="message.php">短消息</a> <!--{if $user[newpm]==1}--><img src="$imgpath/$stylepath/new.gif" /><!--{/if}-->
+<!--{/if}-->
+
+<!--{if $gp_allowpost=='1'}-->
+┆ <a href="post.php" class="f-stylecolor">发布视频</a>
+<!--{/if}-->
+
+<!--{loop $hackdb[1] $h}-->
+┆ <a href="hack.php?hackname=$h[directory]">$h[name]</a>
+<!--{/loop}-->
+
+<!--{if $SYSTEM[allowadmincp]=='1'}-->
+┆ <a href="admin.php" target="_blank">后台管理</a>
+<!--{/if}-->
+
+┆ <a href="search.php">搜索</a>
+
+<!--{if $db_mergesystype=='ucenter' && $db_mergeshowapp=='1'}-->
+	<!--{eval include_once PHPVOD_ROOT . 'uc_client/data/cache/apps.php';}-->
+	<!--{loop $_CACHE['apps'] $key $value}-->
+		<!--{if $value[appid] != UC_APPID && is_numeric($key)}-->
+		┆ <a href="$value[url]" target="_blank">$value[name]</a>	
+		<!--{/if}-->
+	<!--{/loop}-->
+<!--{/if}-->
+
+┆ <a href="arthome.php">文档</a>
+┆ <a href="rss.php" target="_blank">RSS</a>

@@ -1,0 +1,131 @@
+<!--{template 'panel_flash'}-->
+
+<!--{eval $adcode = ad('nav');}-->
+<!--{if $adcode!=''}--><div class="u-adnav f-mt10">$adcode</div><!--{/if}-->
+
+<div class="g-full f-mt10 f-fl">
+	<div class="g-main f-fr">
+		
+		<div class="m-box">
+			<div class="title">视频检索</div>
+			<div class="content m-classfilter">
+				<p>
+					<label>类别: </label> 
+					<!--{loop:class:$c cid=$cup}-->
+					<a href="javascript:;" onclick='javascript:window.location.href="class.php?cid=$c[cid]{$nidurl}{$yearurl}{$orderurl}";return false;'{$sel[cid][$c[cid]]}>$c[caption]</a>
+					<!--{/loop:class}-->
+				</p>				
+				<p>
+					<label>地区: </label>
+					<a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}{$yearurl}{$orderurl}";return false;'{$sel[nid][all]}>全部</a>
+					<!--{loop $_nation $k $n}-->
+					<a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}&nid=$k{$yearurl}{$orderurl}";return false;'{$sel[nid][$k]}>$n</a>
+					<!--{/loop}-->
+				</p>				
+				<p>
+					<label>时间: </label>
+					<a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}{$nidurl}{$orderurl}";return false;'{$sel[year][all]}>全部</a>
+					<!--{eval for($i=$db_yearend;$i>=$db_yearstart;$i--) {if($db_yearend-$i>=10) break;}-->
+					<a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}{$nidurl}&year=$i{$orderurl}";return false;'{$sel[year][$i]}>$i</a>
+					<!--{eval }}-->
+					<a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}{$nidurl}&year=b{$i}{$orderurl}";return false;'{$sel[year]['b'.$i]}>更早</a>
+				</p>				
+				<p>
+					<label>排序: </label>
+					<a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}{$nidurl}{$yearurl}&order=postdate";return false;'{$sel[order][postdate]}>发布时间</a><a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}{$nidurl}{$yearurl}&order=lastdate";return false;'{$sel[order][lastdate]}>最后更新</a><a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}{$nidurl}{$yearurl}&order=hits";return false;'{$sel[order][hits]}>人气</a><a href="javascript:;" onclick='javascript:window.location.href="class.php{$cidurl}{$nidurl}{$yearurl}&order=reply";return false;'{$sel[order][reply]}>评论</a>
+				</p>				
+			</div>
+		</div>
+		
+		<div class="m-box g-main f-mt10">
+			<div class="title">
+				<span class="f-fr f-fs12">
+					<!--{loop:class:$c1 cid=$cid}-->
+					&nbsp;&nbsp;<a href="class.php?cid=$c1[cid]">$c1[caption]</a>
+					<!--{/loop:class}-->
+				</span>
+				$_class[$cid][caption]				
+			</div>
+			<div class="content">
+				<!--{$videodb=loop:video $tagstr|showsub=1|order=$orderway $orderasc,v.vid DESC|limit=$db_perpage|page=$page|url=$url|sync=1}-->
+				<ul class="m-list3">
+					<!--{loop $videodb $video}-->
+					<li>
+					<a href="read.php?vid=$video[vid]" title="$video[subject]"><img src="$video[picurl]" alt="$video[subject]"/></a>
+					<h2><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></h2>
+					<p>主演: $video[playactor]</p>
+					<p>地区: $video[nation_name]</p>
+					<p>时间: <!--{echo get_date($video[postdate], 'Y-m-d')}--></p>
+					<p>会员: <a href="profile.php?action=show&id=$video[authorid]" target="_blank">$video[author]</a></p>
+					<p>人气: $video[hits]</p>
+					<p>评论: $video[reply]</p>
+					</li>
+					<!--{/loop}-->
+				</ul>				
+			</div>		
+		</div>
+		<div class="u-pages"><span class="f-stylecolor">提示：可使用键盘方向键←→翻页</span> &nbsp;&nbsp;&nbsp;&nbsp; <!--{page $pageinfo}--></div>
+		<!-- 键盘翻页 -->
+		<script type="text/javascript">
+		<!--{eval $page_down = !empty($pageinfo['page_down']) ? $pageinfo['page_down'] : 1;}-->
+		<!--{eval $page_up = !empty($pageinfo['page_up']) ? $pageinfo['page_up'] : 1;}-->
+		<!--{eval $nextpage = pv_url('class.php' . $cidurl . $nidurl . $yearurl . $orderurl . '&page=' . $page_down);}-->
+		<!--{eval $prevpage = pv_url('class.php' . $cidurl . $nidurl . $yearurl . $orderurl . '&page=' . $page_up);}-->
+		$(document).keyup(function(event){
+			if(event.keyCode=='37') window.location.href="{$prevpage}";
+			if(event.keyCode=='39') window.location.href="{$nextpage}";
+		});			
+		</script>
+	</div>
+	<div class="g-side f-fl">
+		<div class="m-box">
+			<div class="title">本类排行 </div>
+			<div class="content">
+				<ul class="m-list2-1">
+					<!--{eval $i=1;}-->
+					<!--{loop:video:$video cid=$cid|showsub=1|order=hits DESC,v.vid DESC|limit=10}-->
+					<!--{if $i==1}-->
+					<li class="l1">
+						<a class="imgbg1" href="read.php?vid=$video[vid]" title="$video[subject]"><img src="$video[picurl]" alt="$video[subject]"/><span class="num1">1</span></a>
+						<p class="subject"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></p>
+						<p>类别: $video[class_name]</p>
+						<p>地区: $video[nation_name]</p>
+						<p>热度: $video[hits]</p>
+						<p>更新日期: <!--{echo get_date($video[lastdate], 'Y-m-d')}--></p>							
+					</li>					
+					<!--{else}-->
+					<li>
+						<span class="f-fr">$video[hits]</span>
+						<i>$i</i>
+						<span class="sj"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></span>
+					</li>					
+					<!--{/if}-->
+					<!--{eval $i++;}-->
+					<!--{/loop:video}-->
+				</ul>				
+			</div>			
+		</div>
+		
+		<!--{$videodb=loop:video cid=$cid|best=2|showsub=1|order=lastdate DESC,postdate DESC,v.vid DESC|limit=3}-->
+		<!--{if !empty($videodb)}-->
+		<div class="m-box f-mt10">
+			<div class="title">本类推荐</div>
+			<div class="content">
+				<ul class="m-list2-1">
+					<!--{loop $videodb $key $video}-->
+					<li class="l1<!--{if $key>0}--> f-mt10<!--{/if}-->">
+						<a class="imgbg1" href="read.php?vid=$video[vid]" title="$video[subject]"><img src="$video[picurl]" alt="$video[subject]"/></a>
+						<p class="subject"><a href="read.php?vid=$video[vid]" title="$video[subject]">$video[subject]</a></p>
+						<p>类别: $video[class_name]</p>
+						<p>地区: $video[nation_name]</p>
+						<p>热度: $video[hits]</p>
+						<p>更新日期: <!--{echo get_date($video[lastdate], 'Y-m-d')}--></p>							
+					</li>					
+					<!--{/loop}-->
+				</ul>			
+			</div>
+		</div>
+		<!--{/if}-->
+	</div>
+	
+</div>

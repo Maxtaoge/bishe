@@ -1,0 +1,40 @@
+<div class="g-full f-mt10 f-fl">
+
+	<div class="g-main f-fl">
+		<!--{loop $_artclass $classid $classname}-->
+		<div class="m-box f-mb10">
+			<div class="title">
+				<span class="f-fr f-fs12">
+					<a href="artlist.php?classid=$classid">更多...</a>
+				</span>
+				<a href="artlist.php?classid=$classid">$classname</a>
+			</div>
+			<div class="content f-p10">
+				<ul class="m-artlist">
+					<!--{loop:article:$article classid=$classid|limit=10|cachetime=60s}-->
+					<li>
+						<span class="arttime"><!--{echo get_date($article[timestamp])}--></span>
+						<span class="artsubject"><a href="article.php?aid=$article[aid]">$article[subject]</a></span>
+					</li>
+					<!--{/loop:article}-->
+				</ul>	
+			</div>	
+		</div>
+		<!--{/loop}-->		
+	</div>
+	
+	<div class="g-side f-fr">
+		<div class="m-box">
+			<div class="title">栏目列表</div>
+			<div class="content">
+				<ul class="m-artclass">
+					<li><a href="arthome.php">文档首页</a></li>
+					<!--{loop $_artclass $classid $classname}-->
+					<li><a href="artlist.php?classid=$classid">$classname</a></li>
+					<!--{/loop}-->					
+				</ul>				
+			</div>			
+		</div>		
+	</div>
+	
+</div>

@@ -1,0 +1,13 @@
+<div id="ckplayer"></div>
+<script type="text/javascript" src="data/player/ckplayer/ckplayer.js" charset="utf-8"></script>
+<script type="text/javascript">
+	var flashvars={
+		f:"$url",
+		c:0,
+		b:1,
+		p:1
+	};
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+    var video=['$url->video/mp4'];
+    CKobject.embed('data/player/ckplayer/ckplayer.swf','ckplayer','ckplayer','550','400',false,flashvars,video,params);
+</script>
